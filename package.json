@@ -1,0 +1,30 @@
+{
+  "name": "@nitwhiz/aoc-2021",
+  "version": "1.0.0",
+  "description": "Advent Of Code 2021",
+  "scripts": {
+    "solution": "ts-node -r tsconfig-paths/register ./src/index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nitwhiz/aoc-2021.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nitwhiz/aoc-2021/issues"
+  },
+  "homepage": "https://github.com/nitwhiz/aoc-2021#readme",
+  "dependencies": {
+    "fs-extra": "^10.0.0",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.2"
+  },
+  "devDependencies": {
+    "@tsconfig/node16": "^1.0.2",
+    "@types/fs-extra": "^9.0.13",
+    "@types/node": "^16.11.11",
+    "prettier": "^2.5.0",
+    "tsconfig-paths": "^3.12.0"
+  }
+}
