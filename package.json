@@ -3,8 +3,12 @@
   "version": "1.0.0",
   "description": "Advent Of Code 2021",
   "scripts": {
-    "solution": "ts-node -r tsconfig-paths/register ./src/index.ts"
+    "solution": "ts-node -r tsconfig-paths/register ./src/index.ts",
+    "test": "jest"
   },
+  "pre-commit": [
+    "test"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/nitwhiz/aoc-2021.git"
@@ -27,6 +31,7 @@
     "@types/jest": "^27.0.3",
     "@types/node": "^16.11.11",
     "jest": "^27.4",
+    "pre-commit": "^1.2.2",
     "prettier": "^2.5.0",
     "ts-jest": "^27.1.0",
     "tsconfig-paths": "^3.12.0"
