@@ -1,15 +1,10 @@
-import { input } from '@/common/helpers';
 import Solution from '@/common/Solution';
-import path from 'path';
 
 export default class SonarSweep extends Solution {
-  @input(path.basename(__dirname))
-  private input!: string[];
-
   private parsedInput: number[];
 
-  public constructor() {
-    super();
+  public constructor(input: string[]) {
+    super(input);
 
     this.parsedInput = this.input.map((v) => Number(v));
   }

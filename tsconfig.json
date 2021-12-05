@@ -12,13 +12,13 @@
     "noImplicitReturns": true,
     "noUnusedLocals": true,
     "noImplicitAny": true,
-    "noUnusedParameters": true,
+    "noUnusedParameters": false,
     "noUncheckedIndexedAccess": true,
-    "rootDir": "src",
-    "baseUrl": "src",
+    "rootDir": ".",
+    "baseUrl": ".",
     "paths": {
       "@/*": [
-        "*"
+        "src/*"
       ]
     }
   },
