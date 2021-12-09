@@ -22,8 +22,11 @@ import fs from 'fs-extra';
   console.log(`running ${solution} ...`);
   console.log('');
 
+  console.time('time');
+
   await new SolutionClass(input).run();
 
   console.log('');
+  console.timeEnd('time');
   console.log('done.');
 })();
