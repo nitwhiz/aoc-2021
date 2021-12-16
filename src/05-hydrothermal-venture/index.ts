@@ -34,7 +34,7 @@ export default class HydrothermalVenture extends Solution {
   public getOverlaps(): number {
     let overlaps = 0;
 
-    for (const pos of this.map.getCoordinates()) {
+    for (const pos of this.map.getPositions()) {
       if (this.map.getXY(pos) > 1) {
         ++overlaps;
       }

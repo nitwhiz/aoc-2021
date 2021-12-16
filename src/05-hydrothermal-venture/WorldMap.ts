@@ -1,11 +1,11 @@
 type WordSize = 8 | 16 | 32;
 
-const SIZE_8: WordSize = 8;
-const SIZE_16: WordSize = 16;
-const SIZE_32: WordSize = 32;
+export const WORD_SIZE_8: WordSize = 8;
+export const WORD_SIZE_16: WordSize = 16;
+export const WORD_SIZE_32: WordSize = 32;
 
-const POW_8 = Math.pow(2, SIZE_8);
-const POW_16 = Math.pow(2, SIZE_16);
+const POW_8 = Math.pow(2, WORD_SIZE_8);
+const POW_16 = Math.pow(2, WORD_SIZE_16);
 
 export interface Position {
   x: number;
@@ -20,17 +20,21 @@ export default class WorldMap {
   private width: number;
   private height: number;
 
-  constructor() {
-    this.data = new Uint8Array(1);
-    this.wordSize = SIZE_8;
+  constructor(
+    width: number = 1,
+    height: number = 1,
+    wordSize: WordSize = WORD_SIZE_8,
+  ) {
+    this.data = new Uint8Array(width * height);
+    this.wordSize = wordSize;
 
-    this.width = 1;
-    this.height = 1;
+    this.width = width;
+    this.height = height;
   }
 
   public reset(): void {
     this.data = new Uint8Array(1);
-    this.wordSize = SIZE_8;
+    this.wordSize = WORD_SIZE_8;
 
     this.width = 1;
     this.height = 1;
@@ -48,7 +52,7 @@ export default class WorldMap {
     return this.wordSize;
   }
 
-  public *getCoordinates(): Generator<Position> {
+  public *getPositions(): Generator<Position> {
     for (let y = 0; y < this.height; ++y) {
       for (let x = 0; x < this.width; ++x) {
         yield { x, y };
@@ -56,7 +60,7 @@ export default class WorldMap {
     }
   }
 
-  private ensureSize(pos: Position, v?: number): void {
+  public ensureSize(pos: Position, v?: number): void {
     if (
       this.shouldScaleUpDimensions(pos) ||
       (v ? this.shouldScaleUpWordSize(v) : false)
@@ -74,7 +78,7 @@ export default class WorldMap {
   }
 
   private static getFittingWordSize(v: number): WordSize {
-    return v > POW_8 ? SIZE_16 : v > POW_16 ? SIZE_32 : SIZE_8;
+    return v > POW_8 ? WORD_SIZE_16 : v > POW_16 ? WORD_SIZE_32 : WORD_SIZE_8;
   }
 
   private shouldScaleUpWordSize(v: number): boolean {
@@ -114,7 +118,7 @@ export default class WorldMap {
     }
 
     if (w !== this.width || h !== this.height) {
-      for (const pos of this.getCoordinates()) {
+      for (const pos of this.getPositions()) {
         newData[pos.x + pos.y * w] = this.getXY(pos);
       }
     } else {
@@ -129,10 +133,21 @@ export default class WorldMap {
   }
 
   public setXY(pos: Position, v: number) {
+    this.ensureSize(pos, v);
+
     this.data[pos.x + pos.y * this.width] = v;
   }
 
   public getXY(pos: Position): number {
+    if (
+      pos.x < 0 ||
+      pos.y < 0 ||
+      pos.x > this.width - 1 ||
+      pos.y > this.height - 1
+    ) {
+      return -1;
+    }
+
     return this.data[pos.x + pos.y * this.width] || 0;
   }
 
@@ -180,17 +195,14 @@ export default class WorldMap {
     this.ensureSize({ x: x2, y: y2 });
 
     for (const pos of WorldMap.getLineCoordinates(x1, y1, x2, y2)) {
-      const newVal = this.getXY(pos) + 1;
-
-      this.ensureSize(pos, newVal);
-      this.setXY(pos, newVal);
+      this.setXY(pos, this.getXY(pos) + 1);
     }
   }
 
   public stringify(): string {
     let str = '';
 
-    for (const pos of this.getCoordinates()) {
+    for (const pos of this.getPositions()) {
       const val = this.getXY(pos);
 
       if (val === 0) {

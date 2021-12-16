@@ -105,9 +105,9 @@ export default class SegmentController {
   public fitDigits(unmapped: string[]): void {
     let wires = this.getWires(0);
 
-    if (wires['C'].length > 1) {
-      // todo
-    }
+    // if (wires['C'].length > 1) {
+    //   // todo
+    // }
 
     console.log(wires);
   }
